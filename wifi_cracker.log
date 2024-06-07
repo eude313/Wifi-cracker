@@ -1,0 +1,474 @@
+2024-06-02 21:15:25,496 - ERROR - Script not run as root.
+2024-06-02 21:15:45,921 - INFO - Displayed intro.
+2024-06-02 21:16:27,647 - INFO - Command: airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    700 NetworkManager
+    814 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy1]wlan0 on [phy1]wlan0mon)
+		(mac80211 station mode vif disabled for [phy1]wlan0)
+
+
+Error: 
+2024-06-02 21:16:27,654 - ERROR - Failed to enable monitor mode.
+2024-06-02 21:16:37,495 - INFO - Displayed intro.
+2024-06-02 21:19:44,401 - INFO - Command: airmon-ng start wlan0mon
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    700 NetworkManager
+    814 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0mon	iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode already enabled for [phy1]wlan0mon on [phy1]10)
+
+Error: 
+2024-06-02 21:19:44,401 - ERROR - Failed to enable monitor mode.
+2024-06-02 23:44:05,138 - INFO - Displayed intro.
+2024-06-02 23:44:22,304 - INFO - Command: airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    720 NetworkManager
+    839 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy1]wlan0 on [phy1]wlan0mon)
+		(mac80211 station mode vif disabled for [phy1]wlan0)
+
+
+Error: 
+2024-06-02 23:44:22,304 - ERROR - Failed to enable monitor mode.
+2024-06-02 23:44:58,850 - INFO - Displayed intro.
+2024-06-02 23:45:17,889 - INFO - Command: airmon-ng start wlan0mon
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    720 NetworkManager
+    839 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0mon	iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode already enabled for [phy1]wlan0mon on [phy1]10)
+
+Error: 
+2024-06-02 23:45:17,890 - ERROR - Failed to enable monitor mode.
+2024-06-03 13:45:16,805 - INFO - Displayed intro.
+2024-06-03 13:45:19,811 - INFO - Command: which airmon-ng
+Output: /usr/sbin/airmon-ng
+
+Error: 
+2024-06-03 13:45:19,817 - INFO - Command: which airodump-ng
+Output: /usr/sbin/airodump-ng
+
+Error: 
+2024-06-03 13:45:19,823 - INFO - Command: which aireplay-ng
+Output: /usr/sbin/aireplay-ng
+
+Error: 
+2024-06-03 13:45:19,829 - INFO - Command: which aircrack-ng
+Output: /usr/bin/aircrack-ng
+
+Error: 
+2024-06-03 13:45:19,834 - INFO - Command: which hashcat
+Output: /usr/bin/hashcat
+
+Error: 
+2024-06-03 13:45:19,839 - INFO - Command: which crunch
+Output: 
+Error: 
+2024-06-03 13:45:19,845 - INFO - Command: which cap2hccapx.bin
+Output: 
+Error: 
+2024-06-03 13:45:19,850 - INFO - Command: which reaver
+Output: /usr/bin/reaver
+
+Error: 
+2024-06-03 13:45:19,856 - INFO - Command: which bettercap
+Output: 
+Error: 
+2024-06-03 13:45:39,290 - INFO - Command: apt-get update && apt-get install -y crunch
+Output: Hit:1 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Get:2 https://packages.microsoft.com/repos/vscode stable InRelease [3594 B]
+Get:3 https://packages.microsoft.com/repos/code stable InRelease [3590 B]
+Hit:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Get:5 https://packages.microsoft.com/repos/vscode stable/main amd64 Packages [24.7 kB]
+Hit:6 http://http.kali.org/kali kali-rolling InRelease
+Get:7 https://packages.microsoft.com/repos/code stable/main armhf Packages [17.7 kB]
+Get:8 https://packages.microsoft.com/repos/code stable/main arm64 Packages [17.8 kB]
+Get:9 https://packages.microsoft.com/repos/code stable/main amd64 Packages [17.1 kB]
+Fetched 84.5 kB in 4s (19.3 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  crunch
+0 upgraded, 1 newly installed, 0 to remove and 428 not upgraded.
+Need to get 30.3 kB of archives.
+After this operation, 85.0 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 crunch amd64 3.6-3 [30.3 kB]
+Fetched 30.3 kB in 4s (8385 B/s)
+Selecting previously unselected package crunch.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 396436 files and directories currently installed.)
+Preparing to unpack .../crunch_3.6-3_amd64.deb ...
+Unpacking crunch (3.6-3) ...
+Setting up crunch (3.6-3) ...
+Processing triggers for kali-menu (2023.4.7) ...
+Processing triggers for man-db (2.12.0-3) ...
+
+Error: 
+2024-06-03 13:45:55,688 - INFO - Command: apt-get update && apt-get install -y hashcat-utils
+Output: Hit:1 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Hit:2 http://http.kali.org/kali kali-rolling InRelease
+Hit:3 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Get:4 https://packages.microsoft.com/repos/vscode stable InRelease [3594 B]
+Get:5 https://packages.microsoft.com/repos/code stable InRelease [3590 B]
+Fetched 7184 B in 2s (4300 B/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  hashcat-utils
+0 upgraded, 1 newly installed, 0 to remove and 428 not upgraded.
+Need to get 50.7 kB of archives.
+After this operation, 470 kB of additional disk space will be used.
+Get:1 http://kali.download/kali kali-rolling/main amd64 hashcat-utils amd64 1.9-0kali2 [50.7 kB]
+Fetched 50.7 kB in 8s (6681 B/s)
+Selecting previously unselected package hashcat-utils.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 396443 files and directories currently installed.)
+Preparing to unpack .../hashcat-utils_1.9-0kali2_amd64.deb ...
+Unpacking hashcat-utils (1.9-0kali2) ...
+Setting up hashcat-utils (1.9-0kali2) ...
+
+Error: 
+2024-06-03 13:47:54,327 - INFO - Command: apt-get update && apt-get install -y bettercap
+Output: Hit:1 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Hit:2 http://http.kali.org/kali kali-rolling InRelease
+Get:3 https://packages.microsoft.com/repos/vscode stable InRelease [3594 B]
+Hit:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Get:5 https://packages.microsoft.com/repos/code stable InRelease [3590 B]
+Fetched 7184 B in 2s (3909 B/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  libnetfilter-queue1
+The following NEW packages will be installed:
+  bettercap libnetfilter-queue1
+0 upgraded, 2 newly installed, 0 to remove and 428 not upgraded.
+Need to get 7282 kB of archives.
+After this operation, 27.4 MB of additional disk space will be used.
+Get:1 http://http.kali.org/kali kali-rolling/main amd64 libnetfilter-queue1 amd64 1.0.5-4+b1 [14.7 kB]
+Get:2 http://http.kali.org/kali kali-rolling/main amd64 bettercap amd64 2.32.0+git20240107.924ff57-1~exp1 [7267 kB]
+Fetched 7282 kB in 1min 46s (68.7 kB/s)
+Selecting previously unselected package libnetfilter-queue1:amd64.
+(Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 396483 files and directories currently installed.)
+Preparing to unpack .../libnetfilter-queue1_1.0.5-4+b1_amd64.deb ...
+Unpacking libnetfilter-queue1:amd64 (1.0.5-4+b1) ...
+Selecting previously unselected package bettercap.
+Preparing to unpack .../bettercap_2.32.0+git20240107.924ff57-1~exp1_amd64.deb ...
+Unpacking bettercap (2.32.0+git20240107.924ff57-1~exp1) ...
+Setting up libnetfilter-queue1:amd64 (1.0.5-4+b1) ...
+Setting up bettercap (2.32.0+git20240107.924ff57-1~exp1) ...
+bettercap.service is a disabled or a static unit, not starting it.
+Processing triggers for libc-bin (2.38-10) ...
+Processing triggers for kali-menu (2023.4.7) ...
+
+Error: 
+2024-06-03 13:48:18,991 - INFO - Command: airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    721 NetworkManager
+    836 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy1]wlan0 on [phy1]wlan0mon)
+		(mac80211 station mode vif disabled for [phy1]wlan0)
+
+
+Error: 
+2024-06-03 13:48:18,993 - ERROR - Failed to enable monitor mode.
+2024-06-03 13:48:35,431 - INFO - Command: airmon-ng start wlan0mon
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    721 NetworkManager
+    836 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0mon	iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode already enabled for [phy1]wlan0mon on [phy1]10)
+
+Error: 
+2024-06-03 13:48:35,431 - ERROR - Failed to enable monitor mode.
+2024-06-03 14:41:59,227 - INFO - Displayed intro.
+2024-06-03 14:42:02,237 - INFO - Command: which airmon-ng
+Output: /usr/sbin/airmon-ng
+
+Error: 
+2024-06-03 14:42:02,243 - INFO - Command: which airodump-ng
+Output: /usr/sbin/airodump-ng
+
+Error: 
+2024-06-03 14:42:02,250 - INFO - Command: which aireplay-ng
+Output: /usr/sbin/aireplay-ng
+
+Error: 
+2024-06-03 14:42:02,256 - INFO - Command: which aircrack-ng
+Output: /usr/bin/aircrack-ng
+
+Error: 
+2024-06-03 14:42:02,262 - INFO - Command: which hashcat
+Output: /usr/bin/hashcat
+
+Error: 
+2024-06-03 14:42:02,267 - INFO - Command: which crunch
+Output: /usr/bin/crunch
+
+Error: 
+2024-06-03 14:42:02,272 - INFO - Command: which cap2hccapx.bin
+Output: 
+Error: 
+2024-06-03 14:42:02,277 - INFO - Command: which reaver
+Output: /usr/bin/reaver
+
+Error: 
+2024-06-03 14:42:02,282 - INFO - Command: which bettercap
+Output: /usr/bin/bettercap
+
+Error: 
+2024-06-03 14:42:19,885 - INFO - Command: apt-get update && apt-get install -y hashcat-utils
+Output: Hit:1 http://http.kali.org/kali kali-rolling InRelease
+Hit:2 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Get:3 https://packages.microsoft.com/repos/vscode stable InRelease [3594 B]
+Get:4 https://packages.microsoft.com/repos/code stable InRelease [3590 B]
+Hit:5 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Fetched 7184 B in 13s (542 B/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hashcat-utils is already the newest version (1.9-0kali2).
+0 upgraded, 0 newly installed, 0 to remove and 428 not upgraded.
+
+Error: 
+2024-06-03 14:42:36,188 - INFO - Command: sudo airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    713 NetworkManager
+    833 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy1]wlan0 on [phy1]wlan0mon)
+		(mac80211 station mode vif disabled for [phy1]wlan0)
+
+
+Error: 
+2024-06-03 14:42:36,189 - ERROR - Failed to enable monitor mode.
+2024-06-03 14:55:57,569 - INFO - Displayed intro.
+2024-06-03 14:56:00,571 - INFO - Command: which airmon-ng
+Output: /usr/sbin/airmon-ng
+
+Error: 
+2024-06-03 14:56:00,574 - INFO - Command: which airodump-ng
+Output: /usr/sbin/airodump-ng
+
+Error: 
+2024-06-03 14:56:00,576 - INFO - Command: which aireplay-ng
+Output: /usr/sbin/aireplay-ng
+
+Error: 
+2024-06-03 14:56:00,578 - INFO - Command: which aircrack-ng
+Output: /usr/bin/aircrack-ng
+
+Error: 
+2024-06-03 14:56:00,581 - INFO - Command: which hashcat
+Output: /usr/bin/hashcat
+
+Error: 
+2024-06-03 14:56:00,583 - INFO - Command: which crunch
+Output: /usr/bin/crunch
+
+Error: 
+2024-06-03 14:56:00,585 - INFO - Command: which cap2hccapx.bin
+Output: 
+Error: 
+2024-06-03 14:56:00,587 - INFO - Command: which reaver
+Output: /usr/bin/reaver
+
+Error: 
+2024-06-03 14:56:00,589 - INFO - Command: which bettercap
+Output: /usr/bin/bettercap
+
+Error: 
+2024-06-03 14:56:08,989 - INFO - Command: apt-get update && apt-get install -y hashcat-utils
+Output: Ign:1 http://http.kali.org/kali kali-rolling InRelease
+Ign:2 https://packages.microsoft.com/repos/vscode stable InRelease
+Ign:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Ign:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Ign:5 https://packages.microsoft.com/repos/code stable InRelease
+Ign:1 http://http.kali.org/kali kali-rolling InRelease
+Ign:2 https://packages.microsoft.com/repos/vscode stable InRelease
+Ign:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Ign:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Ign:5 https://packages.microsoft.com/repos/code stable InRelease
+Ign:1 http://http.kali.org/kali kali-rolling InRelease
+Ign:2 https://packages.microsoft.com/repos/vscode stable InRelease
+Ign:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Ign:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Ign:5 https://packages.microsoft.com/repos/code stable InRelease
+Err:1 http://http.kali.org/kali kali-rolling InRelease
+  Could not resolve 'http.kali.org'
+Err:2 https://packages.microsoft.com/repos/vscode stable InRelease
+  Could not resolve 'packages.microsoft.com'
+Err:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+  Could not resolve 'brave-browser-apt-release.s3.brave.com'
+Err:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+  Could not resolve 'artifacts.elastic.co'
+Err:5 https://packages.microsoft.com/repos/code stable InRelease
+  Could not resolve 'packages.microsoft.com'
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hashcat-utils is already the newest version (1.9-0kali2).
+0 upgraded, 0 newly installed, 0 to remove and 428 not upgraded.
+
+Error: W: Failed to fetch http://http.kali.org/kali/dists/kali-rolling/InRelease  Could not resolve 'http.kali.org'
+W: Failed to fetch https://packages.microsoft.com/repos/vscode/dists/stable/InRelease  Could not resolve 'packages.microsoft.com'
+W: Failed to fetch https://brave-browser-apt-release.s3.brave.com/dists/stable/InRelease  Could not resolve 'brave-browser-apt-release.s3.brave.com'
+W: Failed to fetch https://artifacts.elastic.co/packages/8.x/apt/dists/stable/InRelease  Could not resolve 'artifacts.elastic.co'
+W: Failed to fetch https://packages.microsoft.com/repos/code/dists/stable/InRelease  Could not resolve 'packages.microsoft.com'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+
+2024-06-03 14:56:22,209 - INFO - Command: sudo airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    701 NetworkManager
+    831 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy0	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy0]wlan0 on [phy0]wlan0mon)
+		(mac80211 station mode vif disabled for [phy0]wlan0)
+
+
+Error: 
+2024-06-03 14:56:22,210 - ERROR - Failed to enable monitor mode.
