@@ -472,3 +472,339 @@ phy0	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
 
 Error: 
 2024-06-03 14:56:22,210 - ERROR - Failed to enable monitor mode.
+2024-06-08 13:17:21,817 - INFO - Displayed intro.
+2024-06-08 13:17:24,822 - INFO - Command: which airmon-ng
+Output: /usr/sbin/airmon-ng
+
+Error: 
+2024-06-08 13:17:24,827 - INFO - Command: which airodump-ng
+Output: /usr/sbin/airodump-ng
+
+Error: 
+2024-06-08 13:17:24,831 - INFO - Command: which aireplay-ng
+Output: /usr/sbin/aireplay-ng
+
+Error: 
+2024-06-08 13:17:24,836 - INFO - Command: which aircrack-ng
+Output: /usr/bin/aircrack-ng
+
+Error: 
+2024-06-08 13:17:24,841 - INFO - Command: which hashcat
+Output: /usr/bin/hashcat
+
+Error: 
+2024-06-08 13:17:24,847 - INFO - Command: which crunch
+Output: /usr/bin/crunch
+
+Error: 
+2024-06-08 13:17:24,852 - INFO - Command: which cap2hccapx.bin
+Output: 
+Error: 
+2024-06-08 13:17:24,858 - INFO - Command: which reaver
+Output: /usr/bin/reaver
+
+Error: 
+2024-06-08 13:17:24,863 - INFO - Command: which bettercap
+Output: /usr/bin/bettercap
+
+Error: 
+2024-06-08 13:17:24,868 - INFO - Command: which bully
+Output: /usr/bin/bully
+
+Error: 
+2024-06-08 13:17:30,257 - INFO - Command: apt-get update && apt-get install -y hashcat-utils
+Output: Hit:1 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Hit:2 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Get:3 https://packages.microsoft.com/repos/vscode stable InRelease [3594 B]
+Hit:4 https://packages.microsoft.com/repos/code stable InRelease
+Hit:5 http://http.kali.org/kali kali-rolling InRelease
+Fetched 3594 B in 1s (2505 B/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hashcat-utils is already the newest version (1.9-0kali2).
+0 upgraded, 0 newly installed, 0 to remove and 428 not upgraded.
+
+Error: 
+2024-06-08 13:17:31,799 - INFO - Command: sudo airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    780 NetworkManager
+    899 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy1]wlan0 on [phy1]wlan0mon)
+		(mac80211 station mode vif disabled for [phy1]wlan0)
+
+
+Error: 
+2024-06-08 13:17:31,800 - ERROR - Failed to enable monitor mode.
+2024-06-08 13:18:28,226 - INFO - Command: airodump-ng wlan0mon > networks.csv
+Output: 
+Error: 
+2024-06-08 13:18:28,247 - INFO - Command: killall airodump-ng
+Output: 
+Error: airodump-ng: no process found
+
+2024-06-08 13:47:55,766 - INFO - Displayed intro.
+2024-06-08 13:47:58,774 - INFO - Command: which airmon-ng
+Output: /usr/sbin/airmon-ng
+
+Error: 
+2024-06-08 13:47:58,780 - INFO - Command: which airodump-ng
+Output: /usr/sbin/airodump-ng
+
+Error: 
+2024-06-08 13:47:58,786 - INFO - Command: which aireplay-ng
+Output: /usr/sbin/aireplay-ng
+
+Error: 
+2024-06-08 13:47:58,791 - INFO - Command: which aircrack-ng
+Output: /usr/bin/aircrack-ng
+
+Error: 
+2024-06-08 13:47:58,796 - INFO - Command: which hashcat
+Output: /usr/bin/hashcat
+
+Error: 
+2024-06-08 13:47:58,802 - INFO - Command: which crunch
+Output: /usr/bin/crunch
+
+Error: 
+2024-06-08 13:47:58,807 - INFO - Command: which cap2hccapx.bin
+Output: 
+Error: 
+2024-06-08 13:47:58,813 - INFO - Command: which reaver
+Output: /usr/bin/reaver
+
+Error: 
+2024-06-08 13:47:58,818 - INFO - Command: which bettercap
+Output: /usr/bin/bettercap
+
+Error: 
+2024-06-08 13:47:58,823 - INFO - Command: which bully
+Output: /usr/bin/bully
+
+Error: 
+2024-06-08 13:48:04,679 - INFO - Command: apt-get update && apt-get install -y hashcat-utils
+Output: Hit:1 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Hit:2 https://packages.microsoft.com/repos/vscode stable InRelease
+Hit:3 http://http.kali.org/kali kali-rolling InRelease
+Hit:4 https://packages.microsoft.com/repos/code stable InRelease
+Hit:5 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hashcat-utils is already the newest version (1.9-0kali2).
+0 upgraded, 0 newly installed, 0 to remove and 428 not upgraded.
+
+Error: 
+2024-06-08 13:48:06,199 - INFO - Command: sudo airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    760 NetworkManager
+    893 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy1]wlan0 on [phy1]wlan0mon)
+		(mac80211 station mode vif disabled for [phy1]wlan0)
+
+
+Error: 
+2024-06-08 13:48:06,209 - ERROR - Failed to enable monitor mode.
+2024-06-08 13:51:34,016 - INFO - Displayed intro.
+2024-06-08 13:51:37,022 - INFO - Command: which airmon-ng
+Output: /usr/sbin/airmon-ng
+
+Error: 
+2024-06-08 13:51:37,028 - INFO - Command: which airodump-ng
+Output: /usr/sbin/airodump-ng
+
+Error: 
+2024-06-08 13:51:37,034 - INFO - Command: which aireplay-ng
+Output: /usr/sbin/aireplay-ng
+
+Error: 
+2024-06-08 13:51:37,039 - INFO - Command: which aircrack-ng
+Output: /usr/bin/aircrack-ng
+
+Error: 
+2024-06-08 13:51:37,044 - INFO - Command: which hashcat
+Output: /usr/bin/hashcat
+
+Error: 
+2024-06-08 13:51:37,050 - INFO - Command: which crunch
+Output: /usr/bin/crunch
+
+Error: 
+2024-06-08 13:51:37,055 - INFO - Command: which cap2hccapx.bin
+Output: 
+Error: 
+2024-06-08 13:51:37,061 - INFO - Command: which reaver
+Output: /usr/bin/reaver
+
+Error: 
+2024-06-08 13:51:37,066 - INFO - Command: which bettercap
+Output: /usr/bin/bettercap
+
+Error: 
+2024-06-08 13:51:37,071 - INFO - Command: which bully
+Output: /usr/bin/bully
+
+Error: 
+2024-06-08 13:51:47,521 - INFO - Command: apt-get update && apt-get install -y hashcat-utils
+Output: Ign:1 http://http.kali.org/kali kali-rolling InRelease
+Ign:2 https://packages.microsoft.com/repos/vscode stable InRelease
+Ign:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Ign:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Ign:5 https://packages.microsoft.com/repos/code stable InRelease
+Ign:1 http://http.kali.org/kali kali-rolling InRelease
+Ign:2 https://packages.microsoft.com/repos/vscode stable InRelease
+Ign:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Ign:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Ign:5 https://packages.microsoft.com/repos/code stable InRelease
+Ign:1 http://http.kali.org/kali kali-rolling InRelease
+Ign:2 https://packages.microsoft.com/repos/vscode stable InRelease
+Ign:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Ign:5 https://packages.microsoft.com/repos/code stable InRelease
+Ign:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Err:1 http://http.kali.org/kali kali-rolling InRelease
+  Could not resolve 'http.kali.org'
+Err:2 https://packages.microsoft.com/repos/vscode stable InRelease
+  Could not resolve 'packages.microsoft.com'
+Err:3 https://brave-browser-apt-release.s3.brave.com stable InRelease
+  Could not resolve 'brave-browser-apt-release.s3.brave.com'
+Err:4 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+  Could not resolve 'artifacts.elastic.co'
+Err:5 https://packages.microsoft.com/repos/code stable InRelease
+  Could not resolve 'packages.microsoft.com'
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hashcat-utils is already the newest version (1.9-0kali2).
+0 upgraded, 0 newly installed, 0 to remove and 428 not upgraded.
+
+Error: W: Failed to fetch http://http.kali.org/kali/dists/kali-rolling/InRelease  Could not resolve 'http.kali.org'
+W: Failed to fetch https://packages.microsoft.com/repos/vscode/dists/stable/InRelease  Could not resolve 'packages.microsoft.com'
+W: Failed to fetch https://brave-browser-apt-release.s3.brave.com/dists/stable/InRelease  Could not resolve 'brave-browser-apt-release.s3.brave.com'
+W: Failed to fetch https://artifacts.elastic.co/packages/8.x/apt/dists/stable/InRelease  Could not resolve 'artifacts.elastic.co'
+W: Failed to fetch https://packages.microsoft.com/repos/code/dists/stable/InRelease  Could not resolve 'packages.microsoft.com'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+
+2024-06-08 13:51:47,964 - INFO - Command: sudo airmon-ng start wlan0
+Output: 
+
+Requested device "wlan0" does not exist.
+Run /usr/sbin/airmon-ng without any arguments to see available interfaces
+
+Error: 
+2024-06-08 13:51:47,965 - ERROR - Failed to enable monitor mode.
+2024-06-08 15:18:32,018 - INFO - Displayed intro.
+2024-06-08 15:18:35,028 - INFO - Command: which airmon-ng
+Output: /usr/sbin/airmon-ng
+
+Error: 
+2024-06-08 15:18:35,034 - INFO - Command: which airodump-ng
+Output: /usr/sbin/airodump-ng
+
+Error: 
+2024-06-08 15:18:35,039 - INFO - Command: which aireplay-ng
+Output: /usr/sbin/aireplay-ng
+
+Error: 
+2024-06-08 15:18:35,045 - INFO - Command: which aircrack-ng
+Output: /usr/bin/aircrack-ng
+
+Error: 
+2024-06-08 15:18:35,051 - INFO - Command: which hashcat
+Output: /usr/bin/hashcat
+
+Error: 
+2024-06-08 15:18:35,057 - INFO - Command: which crunch
+Output: /usr/bin/crunch
+
+Error: 
+2024-06-08 15:18:35,062 - INFO - Command: which cap2hccapx.bin
+Output: 
+Error: 
+2024-06-08 15:18:35,068 - INFO - Command: which reaver
+Output: /usr/bin/reaver
+
+Error: 
+2024-06-08 15:18:35,073 - INFO - Command: which bettercap
+Output: /usr/bin/bettercap
+
+Error: 
+2024-06-08 15:18:35,078 - INFO - Command: which bully
+Output: /usr/bin/bully
+
+Error: 
+2024-06-08 15:18:40,639 - INFO - Command: apt-get update && apt-get install -y hashcat-utils
+Output: Hit:1 https://brave-browser-apt-release.s3.brave.com stable InRelease
+Hit:2 https://artifacts.elastic.co/packages/8.x/apt stable InRelease
+Get:3 https://packages.microsoft.com/repos/vscode stable InRelease [3594 B]
+Hit:4 https://packages.microsoft.com/repos/code stable InRelease
+Hit:5 http://http.kali.org/kali kali-rolling InRelease
+Fetched 3594 B in 2s (2326 B/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+hashcat-utils is already the newest version (1.9-0kali2).
+0 upgraded, 0 newly installed, 0 to remove and 428 not upgraded.
+
+Error: 
+2024-06-08 15:18:42,141 - INFO - Command: sudo airmon-ng start wlan0
+Output: 
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    778 NetworkManager
+    895 wpa_supplicant
+
+PHY	Interface	Driver		Chipset
+
+phy1	wlan0		iwlwifi		Intel Corporation Wireless 7260 (rev 73)
+		(mac80211 monitor mode vif enabled for [phy1]wlan0 on [phy1]wlan0mon)
+		(mac80211 station mode vif disabled for [phy1]wlan0)
+
+
+Error: 
+2024-06-08 15:18:42,142 - ERROR - Failed to enable monitor mode.
+2024-06-08 15:18:43,043 - INFO - Command: sudo airmon-ng check kill
+Output: 
+Killing these processes:
+
+    PID Name
+    895 wpa_supplicant
+
+
+Error: 
+2024-06-08 15:18:43,278 - INFO - Command: sudo airmon-ng start wlan0
+Output: 
+
+Requested device "wlan0" does not exist.
+Run /usr/sbin/airmon-ng without any arguments to see available interfaces
+
+Error: 
+2024-06-08 15:18:43,278 - ERROR - Failed to enable monitor mode after killing interfering processes.

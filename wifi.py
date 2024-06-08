@@ -5,15 +5,22 @@ import logging
 import signal
 from colorama import Fore, Style, init
 from tqdm import tqdm
-from manuf import manuf  # You need to install this library for manufacturer lookup
+from manuf import manuf
+import csv
+from tabulate import tabulate
 
+
+# Initialize colorama to automatically reset colors after each print
 init(autoreset=True)
 
+# Configure logging settings
 logging.basicConfig(filename='wifi_cracker.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Print caution message
 print(Fore.YELLOW + "Caution: This tool is intended for educational purposes only. Unauthorized use may violate "
-    "applicable law. Use responsibly and respect privacy.")
+      "applicable law. Use responsibly and respect privacy.")
 
+# License text
 license_text = """
 {green}MIT License
 
@@ -38,34 +45,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """.format(green=Fore.GREEN)
 
+# Print license text and ask user to confirm reading it
 print(license_text)
-
 read_license = input("Have you read the license? ({green}yes{reset}/{red}no{reset}): ".format(green=Fore.GREEN, red=Fore.RED, reset=Style.RESET_ALL)).strip().lower()
 
+# Keep asking the user until they confirm reading the license
 while read_license != 'yes':
     print(license_text)
     read_license = input("Have you read the license now? ({green}yes{reset}/{red}no{reset}): ".format(green=Fore.GREEN, red=Fore.RED, reset=Style.RESET_ALL)).strip().lower()
 
+# Ask user to confirm understanding and agreement with the license
 understand_agree = input("Do you understand and agree with the license? ({green}yes{reset}/{red}no{reset}): ".format(green=Fore.GREEN, red=Fore.RED, reset=Style.RESET_ALL)).strip().lower()
 
+# If the user doesn't agree to the license, exit the program
 if understand_agree != 'yes':
     print(Fore.RED + "You must agree to the license to use this tool. Exiting.")
     exit(1)
 
-# Clear the terminal
+# Clear the screen
 os.system('cls' if os.name == 'nt' else 'clear')
 
+# Function to run shell commands and capture output
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     logging.info(f"Command: {command}\nOutput: {result.stdout}\nError: {result.stderr}")
     return result.stdout, result.stderr
 
+# Function to check if the script is run as root
 def check_root():
     if os.geteuid() != 0:
         print(Fore.RED + "This script must be run as root.")
         logging.error("Please run the script as root.")
         exit(1)
 
+# Function to display introductory message
 def display_intro():
     intro = """
     ---------------------------------------------------------------------------------------
@@ -82,6 +95,7 @@ def display_intro():
     logging.info("Displayed intro.")
     time.sleep(3)  
 
+# Function to check and install required tools
 def check_and_install_requirements():
     required_tools = ['airmon-ng', 'airodump-ng', 'aireplay-ng', 'aircrack-ng', 'hashcat', 'crunch', 'cap2hccapx.bin', 'reaver', 'bettercap', 'bully']
     
@@ -114,10 +128,11 @@ def check_and_install_requirements():
     else:
         print(Fore.GREEN + "All required tools are already installed.")
 
+# Function to find wordlists
 def find_wordlists():
     wordlist_directories = [
         "/usr/share/wordlists/",
-        "/path/to/custom/wordlists/",  # Add custom wordlist directories
+        "/path/to/custom/wordlists/", 
     ]
     
     wordlists = []
@@ -128,17 +143,19 @@ def find_wordlists():
     
     return wordlists
 
+# Function to find tools with associated wordlists
 def find_tools_with_wordlists():
     tools_with_wordlists = {
-        "hashcat": ["rockyou.txt", "passwords.txt"],  # Example: Hashcat comes with RockYou and other wordlists
-        "john": ["english.txt", "common.txt"],  # Example: John the Ripper comes with English and common wordlists
-        # Add other tools and their associated wordlists
+        "hashcat": ["rockyou.txt", "passwords.txt"],  
+        "john": ["english.txt", "common.txt"],  
     }
     
     return tools_with_wordlists
-
+ 
+# Try to enable monitor mode   
 def enable_monitor_mode():
     print(Fore.YELLOW + "Enabling monitor mode...")
+    
     out, err = run_command("sudo airmon-ng start wlan0")
     if "monitor mode enabled" in out:
         print(Fore.GREEN + "Monitor mode enabled.")
@@ -146,24 +163,45 @@ def enable_monitor_mode():
     else:
         print(Fore.RED + "Failed to enable monitor mode.")
         logging.error("Failed to enable monitor mode.")
-        return False
+        print(Fore.YELLOW + "Attempting to kill interfering processes...")
+        run_command("sudo airmon-ng check kill")
+        out, err = run_command("sudo airmon-ng start wlan0")
+        if "monitor mode enabled" in out:
+            print(Fore.GREEN + "Monitor mode enabled.")
+            return True
+        else:
+            print(Fore.RED + "Failed to enable monitor mode after killing interfering processes.")
+            logging.error("Failed to enable monitor mode after killing interfering processes.")
+            return False
+
+# def enable_monitor_mode():
+#     print(Fore.YELLOW + "Enabling monitor mode...")
+#     out, err = run_command("sudo airmon-ng start wlan0")
+#     if "monitor mode enabled" in out:
+#         print(Fore.GREEN + "Monitor mode enabled.")
+#         return True
+#     else:
+#         print(Fore.RED + "Failed to enable monitor mode.")
+#         logging.error("Failed to enable monitor mode.")
+#         return False
+
+
+def restart_network_manager():
+    print(Fore.YELLOW + "Restarting network manager...")
+    subprocess.run(["systemctl", "restart", "NetworkManager"])
+
+def start_services():
+    print(Fore.YELLOW + "Starting services...")
+    subprocess.run(["systemctl", "start", "bluetooth.service"])
+    subprocess.run(["systemctl", "start", "network-manager.service"])
+    
+scanning = True
 
 def signal_handler(sig, frame):
-    print(Fore.GREEN + "\nScan stopped. Proceeding to network selection...")
     global scanning
     scanning = False
 
 signal.signal(signal.SIGINT, signal_handler)
-
-def scan_networks():
-    print(Fore.YELLOW + "Scanning for networks... Press Ctrl+C to stop the scan.")
-    global scanning
-    scanning = True
-    run_command("airodump-ng wlan0mon > networks.csv")
-    while scanning:
-        time.sleep(1)
-    run_command("killall airodump-ng")
-    return "networks.csv"
 
 def get_manufacturer(bssid):
     parser = manuf.MacParser()
@@ -180,29 +218,52 @@ def get_users(bssid):
                     users.append(parts[0].strip())
     return users
 
-def display_networks(result_file):
+def scan_networks():
+    print(Fore.YELLOW + "Scanning for networks... Press Ctrl+C to stop the scan.")
+    global scanning
+    scanning = True
     networks = []
-    with open(result_file, 'r') as file:
-        for line in file:
-            if 'WPA' in line or 'WEP' in line:
-                parts = line.split(',')
-                bssid = parts[0].strip()
+
+    process = subprocess.Popen(["airodump-ng", "wlan0mon"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    try:
+        while scanning:
+            output = process.stdout.readline().decode("utf-8")
+            if "BSSID" in output:
+                continue  
+            if "Station MAC" in output:
+                break  
+            if output.strip():
+                network_info = output.split(",")
                 network = {
-                    'number': len(networks) + 1,
-                    'bssid': bssid,
-                    'channel': parts[3].strip(),
-                    'encryption': parts[5].strip(),
-                    'power': parts[8].strip(),
-                    'essid': parts[13].strip(),
-                    'wps': 'Yes' if 'WPS' in parts else 'No',
-                    'manufacturer': get_manufacturer(bssid),
-                    'users': get_users(bssid)
+                    "BSSID": network_info[0].strip(),
+                    "ESSID": network_info[13].strip(),
+                    "Channel": network_info[3].strip(),
+                    "Privacy": network_info[5].strip(),
+                    "Cipher": network_info[6].strip(),
+                    "Authentication": network_info[7].strip(),
+                    "Power": network_info[8].strip(),
+                    "Beacons": network_info[9].strip(),
+                    "IV": network_info[10].strip(),
+                    "LAN Clients": network_info[11].strip(),
+                    "Station": network_info[12].strip(),
+                    "Power": network_info[8].strip(),
+                    "Manufacturer": get_manufacturer(network_info[0].strip()),
+                    "Connected Users": ", ".join(get_users(network_info[0].strip()))
                 }
                 networks.append(network)
-    for network in networks:
-        print(Fore.CYAN + f"{network['number']}. BSSID: {network['bssid']}, Channel: {network['channel']}, "
-              f"Encryption: {network['encryption']}, Power: {network['power']}, ESSID: {network['essid']}, "
-              f"WPS: {network['wps']}, Manufacturer: {network['manufacturer']}, Users: {len(network['users'])}")
+                
+        headers = ["BSSID", "ESSID", "Channel", "Privacy", "Cipher", "Authentication", 
+                   "Power", "Beacons", "IV", "LAN Clients", "Station", "Manufacturer", "Connected Users"]
+        rows = [[network[key] for key in headers] for network in networks]
+        
+        print(tabulate(rows, headers=headers, tablefmt="grid"))
+    except KeyboardInterrupt:
+        pass
+    finally:
+        process.terminate()
+        process.wait()
+
     return networks
 
 def deauth_users(bssid, channel):
@@ -262,8 +323,8 @@ def main():
     if not enable_monitor_mode():
         print(Fore.RED + "Warning: Monitor mode could not be enabled. Some features may not work properly.")
 
-    result_file = scan_networks()
-    networks = display_networks(result_file)
+    networks = scan_networks()
+    display_networks(networks)
     
     network_number = int(input(Fore.CYAN + "Select a network by number: "))
     if network_number < 1 or network_number > len(networks):
@@ -272,8 +333,8 @@ def main():
         return
     
     selected_network = networks[network_number - 1]
-    bssid = selected_network['bssid']
-    channel = selected_network['channel']
+    bssid = selected_network['BSSID']
+    channel = selected_network['Channel']
     
     deauth_users(bssid, channel)
     
